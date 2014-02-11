@@ -1,0 +1,47 @@
+.autocomplete input.autocomplete-input {
+  display: inline-block;
+  margin-right: -3.35em;
+}
+
+.autocomplete .autocomplete-button {
+  border-radius: 0;
+  padding: 0.62em .9em;
+  vertical-align: middle;
+  background-color: #0086C8;
+  margin-left: 0.14em;
+  margin-top: -.02em;
+}
+
+.tags-container {
+  height: 40px;
+}
+
+.tm-tag {
+  color: #FFF;
+  background-color: #0086C8;
+  border: none;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  border-radius: 0;
+  padding: 0.7em .7em;
+}
+
+.tm-tag .tm-tag-remove {
+  color: #FFF;
+  opacity: 1;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+@media all and (max-width: 30em) {
+  .autocomplete .autocomplete-button {
+    padding-top: .45em;
+  }
+}
+
+@media all and (max-width: 48em) {
+
+}
+
+@media all and (min-width: 62em) {
+
+}

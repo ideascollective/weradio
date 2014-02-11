@@ -1,0 +1,9 @@
+main .create {
+  height: 100%;
+}
+
+main .create {
+  background-image: url("../img/create-bg_bl.png");
+  background-color: rgba(0, 0, 0, 0.5);
+  background-size: cover;
+}

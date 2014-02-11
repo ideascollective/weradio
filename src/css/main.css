@@ -1,0 +1,155 @@
+body, html {
+  height: 100% !important;
+  min-height: 100%;
+  background: #FFF;
+}
+
+body, button, input, textarea, a,
+.pure-g [class *= "pure-u"],
+.pure-g-r [class *= "pure-u"] {
+  /*font-family: 'Carrois Gothic', sans-serif !important;*/
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+input[type=text], textarea {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  width: 30em;
+  height: 34px;
+}
+
+textarea {
+  height: 100px;
+  resize: none;
+}
+
+button.pure-button-primary {
+  border: none;
+  text-transform: uppercase;
+  border-radius: 0;
+  height: 3em;
+  background-color: #0086C8;
+}
+
+button.pure-button-primary.large {
+  width: 18em;
+  height: 4em;
+}
+
+button.pure-button-primary:hover {
+  background-color: #0c7aa7;
+}
+
+button.pure-button-primary i {
+  margin-left: 1em;
+}
+
+.pure-form.pure-form-stacked {
+  padding: 0 20px;
+}
+
+header .home-menu.pure-menu {
+  height: 3em;
+  line-height: 3em;
+  background: #FFF;
+}
+
+header .home-menu .pure-menu-heading {
+  color: #0086C8;
+}
+
+.invisible {
+  display: none;
+}
+
+.logo {
+  background: url("../img/logo-small.png");
+  height: 40px;
+  width: 134px;
+  margin-left: 2em;
+  margin-top: 0.2em;
+}
+
+.section-title {
+  font-size: 2em;
+  font-weight: regular;
+  color: #FFF;
+}
+
+.main {
+  height: 100%;
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #fff;
+}
+
+.form-wrapper {
+  padding: 2em;
+  background: rgba(99, 153, 202, 0.5);
+  margin: 0 auto;
+}
+
+.pure-form input[type=text] {
+  height: 2.7em;
+  font-size: 0.9em;
+}
+
+.pure-form input[name=playlist-name] {
+  margin-bottom: .6em;
+}
+
+.pure-form textarea {
+  height: 6em;
+  font-size: .9em;
+}
+
+.top-menu {
+  width: 100%;
+}
+
+.top-menu input[type=text] {
+  width: 65.4%;
+  border: none;
+  height: 2.9em;
+  padding-left: 1.4em;
+}
+
+.top-menu .fa.fa-search {
+  position: relative;
+  left: 1.3em;
+}
+
+.top-menu .pure-button-primary,
+.top-menu .pure-button-secondary {
+  height: 3em;
+  float: right;
+  border-radius: 0;
+}
+
+.twitter-share-button {
+  position: absolute;
+}
+
+@media screen and (max-width: 400px) {
+  h1 {
+    font-size: 1.5em;
+  }
+
+  section {
+    width: 100%;
+    padding: 0 20px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  section > img {
+    width: 150px;
+  }
+}
