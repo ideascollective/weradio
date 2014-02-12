@@ -4,15 +4,14 @@ node_js:
 before_script:
   - npm install -g grunt-cli
   - npm install -g bower
-  - bower install
-deploy:
-  provider: divshot
-  environment:
-    master: development
-    staging: staging
-    production: production
-  skip_cleanup: true
-  api_key: LLkXrWs_dwbYHL6VTjtAnf-_qk22BaaP3bVe8FOY
+# deploy:
+#   provider: divshot
+#   environment:
+#     master: development
+#     staging: staging
+#     production: production
+#   skip_cleanup: true
+#   api_key: LLkXrWs_dwbYHL6VTjtAnf-_qk22BaaP3bVe8FOY
 notifications:
   webhooks:
     urls:
