@@ -1,7 +1,19 @@
-body, html {
-  height: 100% !important;
-  min-height: 100%;
-  background: #FFF;
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+  background: #10181B;
+}
+
+*, *:before, *:after {
+   box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+
 }
 
 body, button, input, textarea, a,
@@ -23,25 +35,42 @@ textarea {
   resize: none;
 }
 
-button.pure-button-primary {
+button.pure-button {
   border: none;
   text-transform: uppercase;
   border-radius: 0;
   height: 3em;
+}
+
+button.pure-button-primary {
   background-color: #0086C8;
 }
 
-button.pure-button-primary.large {
+button.pure-button-primary.dark {
+  background-color: #0573A8;
+}
+
+button.pure-button.large {
   width: 18em;
   height: 4em;
 }
 
 button.pure-button-primary:hover {
   background-color: #0c7aa7;
+  background-image: none;
+}
+
+button.pure-button-secondary:hover {
+  background-color: #AAA;
+  background-image: none;
 }
 
 button.pure-button-primary i {
-  margin-left: 1em;
+   background-color: #0086C8;
+}
+
+.pure-button-secondary {
+  background-color: #DDD;
 }
 
 .pure-form.pure-form-stacked {
@@ -62,31 +91,56 @@ header .home-menu .pure-menu-heading {
   display: none;
 }
 
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.full-height {
+  height: 100%;
+}
+
 .logo {
   background: url("../img/logo-small.png");
   height: 40px;
   width: 134px;
   margin-left: 2em;
-  margin-top: 0.2em;
 }
 
 .section-title {
   font-size: 2em;
-  font-weight: regular;
+  font-weight: normal;
   color: #FFF;
 }
 
 .main {
-  height: 100%;
+  height: 98%;
+  overflow: hidden;
 }
 
 .modal {
+  height: 100%;
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
-  background: #fff;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-box {
+  width: 40em;
+  height: 15em;
+  margin: 0 auto;
+  margin-top: 10em;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.modal-box .pure-form {
+  width: 90%;
+  margin: 20px auto;
 }
 
 .form-wrapper {
@@ -95,12 +149,16 @@ header .home-menu .pure-menu-heading {
   margin: 0 auto;
 }
 
-.pure-form input[type=text] {
+.pure-form input[type=text],
+.pure-form input[type=url]  {
   height: 2.7em;
+  border-radius: 0;
+  border: 0;
   font-size: 0.9em;
 }
 
 .pure-form input[name=playlist-name] {
+  width: 100%;
   margin-bottom: .6em;
 }
 
