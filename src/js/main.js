@@ -5,7 +5,7 @@ require.config({
     'backbone.wreqr' : '../vendor/backbone.wreqr/lib/amd/backbone.wreqr',
     'backbone.eventbinder' : '../vendor/backbone.eventbinder',
     'backbone.babysitter' : '../vendor/backbone.babysitter/lib/amd/backbone.babysitter',
-    'jquery' : '../vendor/jquery/jquery',
+    'jquery' : '../vendor/jquery/dist/jquery',
     'underscore' : '../vendor/lodash/dist/lodash',
     'modernizr' : '../vendor/modernizr/modernizr',
     'templateregistry' : 'app/templates',
