@@ -16,7 +16,7 @@ deploy:
   access_key_id: AKIAJM2GBHF624PQWVTQ
   secret_access_key:
     secure: FnOUKuUUU+IfAXrqq+p3tcHYA3SR0SSwf/QJ3f36xrxmzuiQabfGfcnWkwj8tlnRIDChVfrqlzOE8GX3GIKBCMUWzq1AneJb/DuVzj1L5VczHvxp/vIpf2rLyOZkFVKZVbjCL8POh7maTXgJ2qFVP1CTrOWA00t5c+LeafFA6FA=
-  bucket: weradio-development.s3-website-sa-east-1.amazonaws.com
+  bucket: weradio-development
   skip_cleanup: true
   local-dir: public
   on:
