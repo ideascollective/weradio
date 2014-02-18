@@ -1,9 +1,12 @@
-<div class="pure-g-r">
-  <div class="pure-u-1-5">
-    <img src="{{thumbnail}}" width="80"/>
+{{#if thumbnail }}
+  <div class="song-item song-item-selected">
+    <div class="image left">
+        <img class="song-avatar" alt="" src="{{thumbnail}}">
+    </div>
+    <div class="content left">
+        <h5 class="song-name">{{title}}</h5>
+        <p class="song-desc">
+        </p>
+    </div>
   </div>
-  <div class="pure-u-4-5">
-    <p class="song-title">{{title}}</p>
-  </div>
-</div>
-
+{{/if }}

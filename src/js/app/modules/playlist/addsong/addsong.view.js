@@ -8,6 +8,7 @@ define(
     var AddSongView = Marionette.Layout.extend({
 
       template: 'addsong.hbs',
+      className: 'modal-box',
 
       events: {
         'click .js-add-song-playlist': 'addSongHandler',

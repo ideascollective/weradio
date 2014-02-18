@@ -1,10 +1,9 @@
 define(
   [
     'marionette',
-    './landing.view',
-    'skrollr'
+    './landing.view'
   ],
-  function(Marionette, LandingView, Skrollr) {
+  function(Marionette, LandingView) {
     'use strict';
 
     var LandingController = Marionette.Controller.extend({
@@ -22,7 +21,6 @@ define(
 
       renderLanding: function(model, options) {
         App.mainRegion.show(this.landingView);
-        var slide = Skrollr.init();
       },
 
       showCreatePlaylist: function() {

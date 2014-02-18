@@ -10,7 +10,8 @@ define(
     var SongListView = Marionette.CompositeView.extend({
       template: "songlist.hbs",
       itemView: SongView,
-      itemViewContainer: "ul",
+      itemViewContainer: "div",
+      className: 'full-height',
       emptyView: SongEmptyView,
 
       events: {

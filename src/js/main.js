@@ -12,7 +12,6 @@ require.config({
     'handlebars' : '../vendor/handlebars/handlebars',
     'firebase' : '../vendor/firebase/firebase',
     'backfire' : '../vendor/backfire/backbone-firebase',
-    'skrollr' : '../vendor/skrollr/src/skrollr',
     'tagmanager' : '../vendor/tagmanager/tagmanager',
     'playlistcollection' : 'app/entities/playlist.collection',
     'tooltipster' : '../vendor/tooltipster/js/jquery.tooltipster'
@@ -38,10 +37,6 @@ require.config({
     'backfire': {
       deps: ['backbone', 'firebase'],
       exports: 'Backbone.Firebase'
-    },
-    'skrollr': {
-      deps: ['jquery'],
-      exports: 'skrollr'
     },
     'tagmanager': {
       deps: ['jquery'],

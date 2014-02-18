@@ -6,7 +6,6 @@ define(
     'use strict';
 
     var SongView = Marionette.ItemView.extend({
-      tagName: 'li',
       template: 'song.hbs'
     });
 
