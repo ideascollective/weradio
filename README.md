@@ -2,16 +2,10 @@ GlobantUI Team
 ==============
 
 App:
-http://development.weradio.divshot.io
-
-Repo:
-https://github.com/staticshowdown/ss14-team-117
+http://weradio-development.s3-website-sa-east-1.amazonaws.com/
 
 Travis:
-https://magnum.travis-ci.com/staticshowdown/ss14-team-117
-
-Gitter:
-https://gitter.im/staticshowdown/ss14-team-117
+https://travis-ci.org/ideascollective/weradio
 
 Trello:
-https://trello.com/b/8xwAN7K5/showdown
+https://trello.com/b/8xwAN7K5/weradio
