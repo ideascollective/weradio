@@ -56,13 +56,11 @@ button.pure-button.large {
 }
 
 button.pure-button-primary:hover {
-  background-color: #0c7aa7;
-  background-image: none;
+  background: #0c7aa7 none;
 }
 
 button.pure-button-secondary:hover {
-  background-color: #AAA;
-  background-image: none;
+  background-color: #AAA none;
 }
 
 button.pure-button-primary i {
@@ -133,8 +131,7 @@ header .home-menu .pure-menu-heading {
 .modal-box {
   width: 40em;
   height: 15em;
-  margin: 0 auto;
-  margin-top: 10em;
+  margin: 10em auto;
   background: rgba(255, 255, 255, 0.5);
 }
 
