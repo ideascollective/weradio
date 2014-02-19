@@ -29,7 +29,6 @@ define(
         var createController = new CreatePlaylistController({
           router: this
         });
-        $('.twitter-share-button').hide();
         createController.show();
       },
 
@@ -37,7 +36,6 @@ define(
         var showPlaylistController = new ShowPlaylistController({
           router: this
         });
-        $('.twitter-share-button').hide();
         showPlaylistController.show({
           playlistId: id
         });
@@ -48,7 +46,6 @@ define(
           playlistId: id,
           router: this
         });
-        $('.twitter-share-button').hide();
         addSongController.show();
       }
     });
