@@ -1,8 +1,0 @@
-{
-  "name": "ss14-team-117",
-  "root": "./public",
-  "clean_urls": true,
-  "error_page": "url",
-  "cache_control": {},
-  "routes": {}
-}
