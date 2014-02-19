@@ -7,7 +7,7 @@ before_script:
 notifications:
   webhooks:
     urls:
-    - https://webhooks.gitter.im/e/1e6b227a0b0df4b12de7
+    - https://ideascollective.slack.com/services/hooks/travis?token=u0hOXe64pzAtiyOW6sJ7LzSN
     on_success: change
     on_failure: always
     on_start: false
