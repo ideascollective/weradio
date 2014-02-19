@@ -9,7 +9,7 @@ define(
 
     var PlaylistCollection = Backfire.Collection.extend({
 
-      firebase: Config.firebaseDataURL,
+      firebase: Config.get('firebaseDataURL'),
 
       model: PlaylistModel
 

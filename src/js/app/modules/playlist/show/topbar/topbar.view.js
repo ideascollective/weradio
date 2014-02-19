@@ -26,7 +26,7 @@ define(
 
       onShow: function() {
         var shareBtn = this.$el.find('.js-share-btn');
-        var url = Config.baseUrl + '#playlist/' + this.id;
+        var url = Config.get('baseUrl') + '#playlist/' + this.id;
         var encodedUrl = encodeURIComponent(url);
         var twitterUrl = 'http://twitter.com/share?text=Join my playlist at WeRadio!&url=http://'+ encodedUrl +'&hashtags=#WeRadio';
         var innerHTML =

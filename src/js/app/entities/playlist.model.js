@@ -16,7 +16,7 @@ define(
       },
 
       initialize: function(options) {
-        this.firebase = Config.firebaseDataURL + '/' + options.id;
+        this.firebase = Config.get('firebaseDataURL') + '/' + options.id;
       }
 
     });
