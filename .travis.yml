@@ -12,21 +12,21 @@ notifications:
     on_failure: always
     on_start: false
 deploy:
-  provider: s3
-  access_key_id: AKIAJM2GBHF624PQWVTQ
-  secret_access_key:
-    secure: FnOUKuUUU+IfAXrqq+p3tcHYA3SR0SSwf/QJ3f36xrxmzuiQabfGfcnWkwj8tlnRIDChVfrqlzOE8GX3GIKBCMUWzq1AneJb/DuVzj1L5VczHvxp/vIpf2rLyOZkFVKZVbjCL8POh7maTXgJ2qFVP1CTrOWA00t5c+LeafFA6FA=
-  bucket: weradio-development
-  skip_cleanup: true
-  local-dir: public
-  on:
-    branch: master
-  provider: s3
-  access_key_id: AKIAJM2GBHF624PQWVTQ
-  secret_access_key:
-    secure: FnOUKuUUU+IfAXrqq+p3tcHYA3SR0SSwf/QJ3f36xrxmzuiQabfGfcnWkwj8tlnRIDChVfrqlzOE8GX3GIKBCMUWzq1AneJb/DuVzj1L5VczHvxp/vIpf2rLyOZkFVKZVbjCL8POh7maTXgJ2qFVP1CTrOWA00t5c+LeafFA6FA=
-  bucket: weradio-production
-  skip_cleanup: true
-  local-dir: public
-  on:
-    branch: production
+  - provider: s3
+    access_key_id: AKIAJM2GBHF624PQWVTQ
+    secret_access_key:
+      secure: FnOUKuUUU+IfAXrqq+p3tcHYA3SR0SSwf/QJ3f36xrxmzuiQabfGfcnWkwj8tlnRIDChVfrqlzOE8GX3GIKBCMUWzq1AneJb/DuVzj1L5VczHvxp/vIpf2rLyOZkFVKZVbjCL8POh7maTXgJ2qFVP1CTrOWA00t5c+LeafFA6FA=
+    bucket: weradio-development
+    skip_cleanup: true
+    local-dir: public
+    on:
+      branch: master
+  - provider: s3
+    access_key_id: AKIAJM2GBHF624PQWVTQ
+    secret_access_key:
+      secure: FnOUKuUUU+IfAXrqq+p3tcHYA3SR0SSwf/QJ3f36xrxmzuiQabfGfcnWkwj8tlnRIDChVfrqlzOE8GX3GIKBCMUWzq1AneJb/DuVzj1L5VczHvxp/vIpf2rLyOZkFVKZVbjCL8POh7maTXgJ2qFVP1CTrOWA00t5c+LeafFA6FA=
+    bucket: weradio-production
+    skip_cleanup: true
+    local-dir: public
+    on:
+      branch: production
