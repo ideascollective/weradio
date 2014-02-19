@@ -16,18 +16,6 @@ define(
       },
 
       events: {
-      },
-
-      animateRegions: function() {
-        var animDuration = 500;
-        $('.playlist-loading').fadeOut();
-        for (var region in this.regions) {
-          if (this.hasOwnProperty(region)) {
-            $(this.regions[region])
-              .fadeIn(animDuration);
-            animDuration = animDuration * 1.5;
-          }
-        }
       }
 
     });
