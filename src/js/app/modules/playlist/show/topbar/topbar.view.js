@@ -16,7 +16,8 @@ define(
       template: 'topbar.hbs',
 
       events: {
-        'click .js-create-list' : 'onCreatePlaylistClick'
+        'click .js-create-list' : 'onCreatePlaylistClick',
+        'click .js-add-song' : 'onAddSongClick'
       },
 
       initialize: function(options) {
@@ -43,6 +44,11 @@ define(
       onCreatePlaylistClick: function(e) {
         e.preventDefault();
         this.trigger('playlist:create-list');
+      },
+
+      onAddSongClick: function(e) {
+        e.preventDefault();
+        this.trigger('playlist:addsong');
       }
 
     });

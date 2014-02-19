@@ -18,6 +18,12 @@ define(
         this.router = options.router;
       },
 
+      showAddSong: function() {
+        this.router.navigate('playlist/' + this.playlist.id + '/addsong', {
+          trigger: true
+        });
+      },
+
       show: function(options) {
         this.playlist = PlaylistCollection.get(options.playlistId);
         var songs = new SongCollection({
@@ -35,6 +41,8 @@ define(
           });
         });
 
+        this.listenTo(topBarView, 'playlist:addsong', this.showAddSong);
+
         this.player = new Player();
 
         this.songList = new SongListView({
@@ -42,11 +50,7 @@ define(
           model: this.playlist
         });
 
-        this.listenTo(this.songList, 'playlist:addsong', function() {
-          this.router.navigate('playlist/' + this.playlist.id + '/addsong', {
-            trigger: true
-          });
-        });
+        this.listenTo(this.songList, 'playlist:addsong', this.showAddSong);
 
         App.mainRegion.show(this.showView);
 
