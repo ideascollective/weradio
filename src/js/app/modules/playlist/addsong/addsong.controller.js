@@ -31,8 +31,8 @@ define(
       playlistAddSong: function(data) {
                 // TODO: use from YouTube Wrapper
         function getVideoId(url) {
-          var videoId = ("" + url).match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-          return videoId && videoId[1];
+          var videoId = ("" + url).match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?(.*&)?v=|\/)([^\s&]+)/);
+          return videoId && videoId[2];
         }
         var options = {
             'id': getVideoId(data.url),
