@@ -32,7 +32,8 @@ define(
       get: function(key) {
         var config = _.extend({}, this[this.env], this.common);
         if (!config[key]) {
-          throw new Error('The key you are looking for does not exist in the config object');
+          throw new Error('The key ' + key + ' does not exist in the config object ' +
+            'for the environment ' + this.env);
         }
         return config[key];
       }
