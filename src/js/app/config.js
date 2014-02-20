@@ -15,12 +15,12 @@ define(
 
       development: {
         firebaseDataURL: 'https://weradio-development.firebaseio.com/',
-        development: 'weradio-development.s3-website-sa-east-1.amazonaws.com'
+        baseUrl: 'weradio-development.s3-website-sa-east-1.amazonaws.com'
       },
 
       production: {
         firebaseDataURL: 'https://weradio.firebaseio.com/',
-        development: 'weradio-production.s3-website-sa-east-1.amazonaws.com'
+        baseUrl: 'weradio-production.s3-website-sa-east-1.amazonaws.com'
       },
 
       common: {
