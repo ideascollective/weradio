@@ -158,8 +158,17 @@ define(
       },
 
       handlePlayPauseClick: function(evt) {
-        var action = (this.player.getPlayerState() === YouTubeWrapper.YT.PlayerState.PLAYING) ? 'pauseVideo' : 'playVideo';
+        var action = (this.player.getPlayerState() === YouTubeWrapper.YT.PlayerState.PLAYING) ? 'pauseVideo' : 'playVideo',
+            buttonIcon = this.$el.find('.js-player-playpauseVideo > i');
+
         this.player[action]();
+
+        if (buttonIcon.hasClass('fa-play')) {
+          buttonIcon.removeClass('fa-play').addClass('fa-pause');
+        } else {
+          buttonIcon.removeClass('fa-pause').addClass('fa-play');
+        }
+
         this.playerSongCollection.playing = true;
       },
 
