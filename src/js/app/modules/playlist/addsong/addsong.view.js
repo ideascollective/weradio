@@ -11,7 +11,9 @@ define(
       className: 'modal-box',
 
       ui: {
-        'input': 'input[name="playlist-name"]'
+        'input': 'input[name="playlist-name"]',
+        'loader': '.loader',
+        'addBtn': '.js-add-song-playlist',
       },
 
       events: {
@@ -26,6 +28,9 @@ define(
         var data = {
           url: this.ui.input.val()
         };
+
+        this.ui.addBtn.addClass('pure-button-disabled');
+        this.ui.loader.removeClass('invisible');
 
         this.trigger('playlist:addsong', data);
       },
