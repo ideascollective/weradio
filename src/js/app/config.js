@@ -27,7 +27,7 @@ define(
         youTubeAPIKey: 'AIzaSyDSvG0AkJljgRcTITwaPDIoSYN5gQ_UNjk'
       },
 
-      env: 'production',
+      env: 'local',
 
       get: function(key) {
         var config = _.extend({}, this[this.env], this.common);
