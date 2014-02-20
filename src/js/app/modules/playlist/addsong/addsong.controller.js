@@ -36,7 +36,7 @@ define(
         }
         var options = {
             'id': getVideoId(data.url),
-            'key': Config.YouTubeAPIKey
+            'key': Config.get('youTubeAPIKey')
           };
         $.getJSON('https://www.googleapis.com/youtube/v3/videos?part=snippet', options)
           .done(function(result) {
