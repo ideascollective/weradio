@@ -144,6 +144,14 @@
   color: #0b77a4;
 }
 
+.player-btn:active {
+  color: #14546F;
+}
+
+.player-btn:focus {
+  outline: none;
+}
+
 .player-controls {
   position: relative;
 }

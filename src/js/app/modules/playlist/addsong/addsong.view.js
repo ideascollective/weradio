@@ -10,6 +10,10 @@ define(
       template: 'addsong.hbs',
       className: 'modal-box',
 
+      ui: {
+        'input': 'input[name="playlist-name"]'
+      },
+
       events: {
         'click .js-add-song-playlist': 'addSongHandler',
         'click .js-cancel': 'onCancelClick',
@@ -20,10 +24,14 @@ define(
         e.preventDefault();
 
         var data = {
-          url: this.$el.find('input[name="playlist-name"]').val()
+          url: this.ui.input.val()
         };
 
         this.trigger('playlist:addsong', data);
+      },
+
+      onShow: function() {
+        this.ui.input.focus();
       },
 
       onCancelClick: function(e) {
