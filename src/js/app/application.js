@@ -32,6 +32,8 @@ define(
       PlaylistCollection.once('sync', function() {
         new Router();
         Backbone.history.start();
+
+        mixpanel.track('Application successfully synched and started');
       });
     });
 
