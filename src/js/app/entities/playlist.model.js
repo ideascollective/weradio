@@ -11,7 +11,7 @@ define(
       defaults: {
         name: '',
         description: '',
-        tags: '',
+        tags: null,
         songs: null
       },
 

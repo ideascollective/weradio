@@ -23,7 +23,8 @@ define(
         this.trigger('playlist:create', {
           name: this.$el.find('input[name="playlist-name"]').val(),
           description: this.$el.find('textarea[name="playlist-description"]').val(),
-          tags: this.$el.find('.tags-input').tagsManager('tags')
+          tags: this.$el.find('.tags-input').tagsManager('tags'),
+          songs: null
         });
       },
 
