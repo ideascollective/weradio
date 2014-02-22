@@ -63,6 +63,12 @@ define(
 
         this.showView.songListRegion.show(this.songList);
 
+        App.vent.trigger('analytics', {
+          key: 'playlist.show',
+          body: {
+            playlistId: this.playlist.id
+          }
+        });
       }
     });
 

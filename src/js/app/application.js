@@ -1,15 +1,34 @@
 define(
   [
+    'underscore',
     'backbone',
     'marionette',
     './router',
     'playlistcollection',
     'templateregistry'
   ],
-  function(Backbone, Marionette, Router, PlaylistCollection, JST) {
+  function(_, Backbone, Marionette, Router, PlaylistCollection, JST) {
     'use strict';
 
     var Application = new Marionette.Application();
+
+    Application.on('initialize:before', function(options) {
+      Marionette.Renderer.render = function(template, data){
+        if (!JST[template]) {
+          throw "Template '" + template + "' not found!";
+        }
+        return JST[template](data);
+      };
+    });
+
+    Application.on('initialize:before', function(options) {
+
+      this.vent.on('analytics', function(event) {
+        var body = event.body || {};
+        mixpanel.track(event.key, body);
+      });
+
+    });
 
     Application.on('initialize:after', function(options) {
       var ModalRegion = Backbone.Marionette.Region.extend({
@@ -29,21 +48,23 @@ define(
     });
 
     Application.on('initialize:after', function(options) {
-      PlaylistCollection.once('sync', function() {
-        new Router();
-        Backbone.history.start();
-
-        mixpanel.track('Application successfully synched and started');
-      });
-    });
-
-    Application.on('initialize:before', function(options) {
-      Marionette.Renderer.render = function(template, data){
-        if (!JST[template]) {
-          throw "Template '" + template + "' not found!";
+      PlaylistCollection.once('sync', _.bind(function() {
+        try {
+          new Router();
+          Backbone.history.start();
+          this.vent.trigger('analytics', {
+            key: 'application.loaded'
+          });
+        } catch(e) {
+          this.vent.trigger('analytics', {
+            key: 'application.error',
+            body: {
+              name: e.name,
+              description: e.description
+            }
+          });
         }
-        return JST[template](data);
-      };
+      }, this));
     });
 
     return Application;

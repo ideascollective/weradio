@@ -29,7 +29,11 @@ define(
       },
 
       playlistAddSong: function(data) {
-                // TODO: use from YouTube Wrapper
+        App.vent.trigger('analytics', {
+          key: 'song.add',
+          body: data
+        });
+        // TODO: use from YouTube Wrapper
         function getVideoId(url) {
           var videoId = ("" + url).match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?(.*&)?v=|\/)([^\s&]+)/);
           return videoId && videoId[2];
