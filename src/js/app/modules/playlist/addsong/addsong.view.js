@@ -2,7 +2,7 @@ define(
   [
     'marionette'
   ],
-  function(Marionette, App) {
+  function(Marionette) {
     'use strict';
 
     var AddSongView = Marionette.Layout.extend({
