@@ -11,7 +11,7 @@ define(
 
       model: SongModel,
 
-      initialize: function(options) {
+      initialize: function(models, options) {
         this.firebase = new Firebase(Config.get('firebaseDataURL') +
           '/' + options.id).child('songs');
       }

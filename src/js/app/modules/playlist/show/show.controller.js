@@ -26,7 +26,7 @@ define(
 
       show: function(options) {
         this.playlist = PlaylistCollection.get(options.playlistId);
-        var songs = new SongCollection({
+        var songs = new SongCollection(null, {
           id : this.playlist.id
         });
 
