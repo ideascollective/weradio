@@ -14,7 +14,8 @@ require.config({
     'backfire' : '../vendor/backfire/backbone-firebase',
     'tagmanager' : '../vendor/tagmanager/tagmanager',
     'playlistcollection' : 'app/entities/playlist.collection',
-    'tooltipster' : '../vendor/tooltipster/js/jquery.tooltipster'
+    'tooltipster' : '../vendor/tooltipster/js/jquery.tooltipster',
+    'popcorn' : 'http://cdn.popcornjs.org/code/dist/popcorn-complete.min'
   },
   shim: {
     'backbone': {
@@ -42,7 +43,10 @@ require.config({
       deps: ['jquery'],
       exports: 'tagmanager'
     },
-    'tooltipster': ['jquery']
+    'tooltipster': ['jquery'],
+    'popcorn': {
+      exports: 'Popcorn'
+    },
   },
   waitSeconds: 30
 });

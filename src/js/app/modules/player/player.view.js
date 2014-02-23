@@ -2,41 +2,11 @@ define(
   [
     'jquery',
     'backbone',
-    'marionette'
+    'marionette',
+    'popcorn'
   ],
-  function($, Backbone, Marionette) {
+  function($, Backbone, Marionette, Popcorn) {
     'use strict';
-
-    // TODO: Convert into helper
-    var YouTubeWrapper = {
-      YT: false,
-      loadAPI: function(callback, context) {
-        var onYouTubeIframeAPIReady = _.bind(function() {
-          this.YT = window.YT;
-          if (callback) {
-            callback.apply(context, this.YT);
-          }
-        }, this);
-
-        if ((typeof YT === 'undefined') || (typeof YT.Player === 'undefined')) {
-          window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-          var tag = document.createElement('script');
-          tag.src = "https://www.youtube.com/iframe_api";
-          var firstScriptTag = document.getElementsByTagName('script')[0];
-          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        } else {
-          onYouTubeIframeAPIReady();
-        }
-      },
-      createPlayer: function(elem, options) {
-        return new this.YT.Player(elem, options);
-      },
-      getVideoId: function(url) {
-        var videoId = ("" + url).match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-        return videoId && videoId[1];
-      }
-    };
 
     // TODO: Convert into helper and possibly unify with YouTubeWrapper
     var PlayerSongCollection = Backbone.Collection.extend({
@@ -66,7 +36,6 @@ define(
       }
     });
 
-
     var PlayerView = Marionette.ItemView.extend({
 
       template: 'player.hbs',
@@ -76,8 +45,8 @@ define(
         'click .js-player-mute': 'handleMuteClick',
         'click .js-player-next': 'playNextSong',
         'click .js-player-prev': 'playPrevSong',
-        'change .js-player-volume': 'handleVolumeChange',
-        'input .js-player-volume': 'handleVolumeChange',
+        'change .js-player-volume': 'handleVolumeClick',
+        'input .js-player-volume': 'handleVolumeClick',
         'click .js-player-toggleVideo': 'handleToggleVideo'
       },
 
@@ -86,62 +55,69 @@ define(
           playerId: _.uniqueId('player-')
         });
         this.songs = options.songs;
+
+        this.listenTo(this.songs, 'add', this.handeAddSongEvent);
+
+        // Listen to player events to update UI
+        this.listenTo(this, 'player:playing', this.handlePlayingState);
+        this.listenTo(this, 'player:pause', this.handlePauseState);
+        this.listenTo(this, 'player:volumechange', this.handleVolumeChange);
       },
 
       onShow: function() {
-        _.bindAll(this, 'onLoadedAPI', 'onPlayerReady', 'onPlayerStateChange');
-
-        YouTubeWrapper.loadAPI(this.onLoadedAPI);
-      },
-
-      onLoadedAPI: function(YT) {
-        this.player = YouTubeWrapper.createPlayer(this.model.get('playerId'), {
-          events: {
-            'onReady': this.onPlayerReady,
-            'onStateChange': this.onPlayerStateChange
-          },
-          playerVars: {
-            controls: '0'
-          }
-        });
-      },
-
-      updateSongs: function(newModel) {
-        this.playerSongCollection.add(newModel.toJSON());
-      },
-
-      onPlayerReady: function(evt) {
-        this.listenTo(this.songs, 'add', this.updateSongs);
-
-        var list =
-          this.songs
-            .filter(function(song) { return !!song.get('url'); })
-            .map(function(song) { return song.toJSON(); });
+        var list = this.songs
+                    .filter(function(song) { return !!song.get('url'); })
+                    .map(function(song) { return song.toJSON(); });
         this.playerSongCollection = new PlayerSongCollection(list);
 
         this.playNextSong();
       },
 
-      onPlayerStateChange: function(evt) {
-        if (evt.data === YouTubeWrapper.YT.PlayerState.ENDED) {
-          this.playNextSong();
-        }
+      handeAddSongEvent: function(newModel) {
+        this.playerSongCollection.add(newModel.toJSON());
       },
 
       _playAnotherSong: function(backward) {
         var direction = (!backward) ? 'next' : 'prev';
         var song = this.playerSongCollection[direction]();
+        if (this.player) {
+          this.stopListening(this.player);
+          this.player.destroy();
+        }
         if (song) {
-          this.player.loadVideoById({
-            videoId: YouTubeWrapper.getVideoId(song.get('url')),
-            startSeconds: 0
-          });
+          this.player = Popcorn.smart(
+            '.player-wrapper',
+            song.get('url')
+          );
+          this._bindPopcornPlayerEvents();
           if (this.playerSongCollection.playing) {
-            this.player.playVideo();
+            this.player.play();
           }
         } else {
-          this.player.stopVideo();
+          this.player.pause();
         }
+      },
+
+      _bindPopcornPlayerEvents: function() {
+        // Add isPlaying state to the player
+        this.listenTo(this.player, 'playing', function(evt) {
+          this.isPlaying = true;
+        });
+        this.listenTo(this.player, 'pause', function(evt) {
+          this.isPlaying = false;
+        });
+        this.listenTo(this.player, 'ended', _.bind(function(evt) {
+          this.playNextSong();
+        }, this));
+        // Trigger all player events but timeupdate as player:eventName
+        _.each(Popcorn.Events.Events.split(/\s+/g), function (eventName, index, list) {
+          if (eventName !== 'timeupdate') {
+            this.listenTo(this.player, eventName, _.bind(function(evt) {
+              console.log(evt);
+              this.trigger('player:' + evt.type, evt);
+            }, this));
+          }
+        }, this);
       },
 
       playNextSong: function() {
@@ -152,29 +128,43 @@ define(
         this._playAnotherSong.call(this, true);
       },
 
-      handleMuteClick: function(evt) {
-        var action = (this.player.isMuted()) ? 'unMute' : 'mute';
+      handlePlayPauseClick: function(evt) {
+        var action = (this.player.isPlaying) ? 'pause' : 'play';
         this.player[action]();
       },
 
-      handlePlayPauseClick: function(evt) {
-        var action = (this.player.getPlayerState() === YouTubeWrapper.YT.PlayerState.PLAYING) ? 'pauseVideo' : 'playVideo',
-            buttonIcon = this.$el.find('.js-player-playpauseVideo > i');
-
-        this.player[action]();
-
-        if (buttonIcon.hasClass('fa-play')) {
-          buttonIcon.removeClass('fa-play').addClass('fa-pause');
-        } else {
-          buttonIcon.removeClass('fa-pause').addClass('fa-play');
-        }
-
+      handlePlayingState: function() {
+        var buttonIcon = this.$el.find('.js-player-playpauseVideo > i');
+        buttonIcon.removeClass('fa-play').addClass('fa-pause');
         this.playerSongCollection.playing = true;
       },
 
-      handleVolumeChange: function(evt) {
-        var value = $(evt.target).val();
-        this.player.setVolume(value);
+      handlePauseState: function() {
+        var buttonIcon = this.$el.find('.js-player-playpauseVideo > i');
+        buttonIcon.removeClass('fa-pause').addClass('fa-play');
+      },
+
+      handleVolumeClick: function(evt) {
+        var value = +$(evt.target).val();
+        if (value != this.player.volume()) {
+          this.player.volume(value / 100);
+        }
+      },
+
+      handleMuteClick: function(evt) {
+        var action = (this.player.muted()) ? 'unmute' : 'mute';
+        this.player[action]();
+      },
+
+      handleVolumeChange: function() {
+        var isMuted = this.player.muted();
+
+        this.$el.find('.js-player-mute > i')
+          .toggleClass('fa-volume-off', isMuted)
+          .toggleClass('fa-volume-up', !isMuted);
+
+        this.$el.find('.js-player-volume')
+          .val(this.player.volume() * 100);
       },
 
       handleToggleVideo: function() {
