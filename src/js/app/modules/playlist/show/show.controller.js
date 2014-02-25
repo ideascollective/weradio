@@ -6,10 +6,11 @@ define(
     './topbar/topbar.view',
     '../../player/player.controller',
     './songlist/songlist.view',
-    '../../../entities/song.collection'
+    '../../../entities/song.collection',
+    './notfound/notfound.view'
   ],
   function(Marionette, ShowPlaylistView, PlaylistCollection, TopBarView,
-      Player, SongListView, SongCollection) {
+      Player, SongListView, SongCollection, PlaylistNotFoundView) {
     'use strict';
 
     var PlaylistController = Marionette.Controller.extend({
@@ -24,8 +25,29 @@ define(
         });
       },
 
+      showCreateList: function() {
+        this.router.navigate('playlist/create', {
+          trigger: true
+        });
+      },
+
+      showHome: function() {
+        this.router.navigate('/', {
+          trigger: true
+        });
+      },
+
       show: function(options) {
         this.playlist = PlaylistCollection.get(options.playlistId);
+
+        if (!this.playlist) {
+          this.showPlaylistNotFound(options.playlistId);
+        } else {
+          this.showPlaylist();
+        }
+      },
+
+      showPlaylist: function() {
         var songs = new SongCollection(null, {
           id : this.playlist.id
         });
@@ -35,12 +57,7 @@ define(
           id : this.playlist.id
         });
 
-        this.listenTo(topBarView, 'playlist:create-list', function() {
-          this.router.navigate('playlist/create', {
-            trigger: true
-          });
-        });
-
+        this.listenTo(topBarView, 'playlist:create-list', this.showCreateList);
         this.listenTo(topBarView, 'playlist:addsong', this.showAddSong);
 
         this.player = new Player();
@@ -67,6 +84,22 @@ define(
           key: 'playlist.show',
           body: {
             playlistId: this.playlist.id
+          }
+        });
+      },
+
+      showPlaylistNotFound: function(playlistId) {
+        var playlistNotFoundView = new PlaylistNotFoundView();
+
+        this.listenTo(playlistNotFoundView, 'playlist:create-list', this.showCreateList);
+        this.listenTo(playlistNotFoundView, 'home', this.showHome);
+
+        App.mainRegion.show(playlistNotFoundView);
+
+        App.vent.trigger('analytics', {
+          key: 'playlist.notfound',
+          body: {
+            playlistId: playlistId
           }
         });
       }
