@@ -120,6 +120,7 @@ define(
         this.playerSongCollection = new PlayerSongCollection(list);
 
         this.playNextSong();
+        this.togglePlayButtonState();
       },
 
       onPlayerStateChange: function(evt) {
@@ -158,18 +159,22 @@ define(
       },
 
       handlePlayPauseClick: function(evt) {
-        var action = (this.player.getPlayerState() === YouTubeWrapper.YT.PlayerState.PLAYING) ? 'pauseVideo' : 'playVideo',
-            buttonIcon = this.$el.find('.js-player-playpauseVideo > i');
+        var action = (this.player.getPlayerState() === YouTubeWrapper.YT.PlayerState.PLAYING) ? 'pauseVideo' : 'playVideo';
 
         this.player[action]();
+        this.togglePlayButtonState();
 
-        if (buttonIcon.hasClass('fa-play')) {
+        this.playerSongCollection.playing = true;
+      },
+
+      togglePlayButtonState: function() {
+        var buttonIcon = this.$el.find('.js-player-playpauseVideo > i'),
+            playing = (this.player.getPlayerState() === YouTubeWrapper.YT.PlayerState.PLAYING) ? true : false;
+        if (buttonIcon.hasClass('fa-play') && !playing) {
           buttonIcon.removeClass('fa-play').addClass('fa-pause');
         } else {
           buttonIcon.removeClass('fa-pause').addClass('fa-play');
         }
-
-        this.playerSongCollection.playing = true;
       },
 
       handleVolumeChange: function(evt) {
