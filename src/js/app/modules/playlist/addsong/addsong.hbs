@@ -1,6 +1,6 @@
 <header>
   <div class="home-menu pure-menu pure-menu-horizontal">
-    <h2 class="pure-menu-heading" href="">Add Song to Playlist</h2>
+    <h2 class="pure-menu-heading" href="">{{t "playlist:addSong.header"}}</h2>
   </div>
 </header>
 </div>
@@ -10,16 +10,16 @@
       <div>
           <form class="pure-form">
               <fieldset class="l-box-lrg pure-u-1">
-                  <input class="pure-input-1" name="playlist-name" type="url" placeholder="Enter the URL of the song" required>
+                  <input class="pure-input-1" name="playlist-name" type="url" placeholder="{{t 'Enter the URL of the song'}}" required>
                   <button class="js-add-song-playlist pure-button pure-button-primary">
-                    Add song to Playlist!
+                    {{t "playlist:addSong.addButton"}}
                   </button>
                   <button class="js-cancel pure-button pure-button-secondary">
-                    Cancel
+                    {{t "playlist:addSong.cancelButton"}}
                   </button>
               </fieldset>
               <div class="loader invisible">
-                  <i class="fa fa-refresh fa-spin"></i> Working on it...
+                  <i class="fa fa-refresh fa-spin"></i> {{t "playlist:addSong.spinnerText"}}
               </div>
           </form>
       </div>
