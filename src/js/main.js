@@ -14,8 +14,10 @@ require.config({
     'backfire' : '../vendor/backfire/backbone-firebase',
     'tagmanager' : '../vendor/tagmanager/tagmanager',
     'playlistcollection' : 'app/entities/playlist.collection',
-    'tooltipster' : '../vendor/tooltipster/js/jquery.tooltipster'
+    'tooltipster' : '../vendor/tooltipster/js/jquery.tooltipster',
+    'polyglot' : '../vendor/polyglot/build/polyglot'
   },
+
   shim: {
     'backbone': {
       deps: ['underscore', 'jquery'],
@@ -38,12 +40,19 @@ require.config({
       deps: ['backbone', 'firebase'],
       exports: 'Backbone.Firebase'
     },
+
     'tagmanager': {
       deps: ['jquery'],
       exports: 'tagmanager'
     },
-    'tooltipster': ['jquery']
+
+    'tooltipster': ['jquery'],
+
+    'polyglot': {
+      exports: 'Polyglot'
+    }
   },
+
   waitSeconds: 30
 });
 
