@@ -169,7 +169,7 @@ define(
 
       togglePlayButtonState: function() {
         var buttonIcon = this.$el.find('.js-player-playpauseVideo > i'),
-            playing = (this.player.getPlayerState() === YouTubeWrapper.YT.PlayerState.PLAYING) ? true : false;
+            playing = (this.player.getPlayerState() === YouTubeWrapper.YT.PlayerState.PLAYING);
         if (buttonIcon.hasClass('fa-play') && !playing) {
           buttonIcon.removeClass('fa-play').addClass('fa-pause');
         } else {
