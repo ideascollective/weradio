@@ -112,7 +112,8 @@
     "maxerr"        : 100,      // Maximum errors before stopping.
     "predef"        : [         // Extra globals.
         "define",
-        "require"
+        "require",
+        "App"
     ],
     "indent"        : 2         // Specify indentation spacing
 }
