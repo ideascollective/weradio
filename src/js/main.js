@@ -15,8 +15,10 @@ require.config({
     'tagmanager' : '../vendor/tagmanager/tagmanager',
     'playlistcollection' : 'app/entities/playlist.collection',
     'tooltipster' : '../vendor/tooltipster/js/jquery.tooltipster',
+    'polyglot' : '../vendor/polyglot/build/polyglot',
     'popcorn' : 'http://cdn.popcornjs.org/code/dist/popcorn-complete.min'
   },
+
   shim: {
     'backbone': {
       deps: ['underscore', 'jquery'],
@@ -39,15 +41,23 @@ require.config({
       deps: ['backbone', 'firebase'],
       exports: 'Backbone.Firebase'
     },
+
     'tagmanager': {
       deps: ['jquery'],
       exports: 'tagmanager'
     },
+
     'tooltipster': ['jquery'],
+
+    'polyglot': {
+      exports: 'Polyglot'
+    },
+
     'popcorn': {
       exports: 'Popcorn'
     },
   },
+
   waitSeconds: 30
 });
 

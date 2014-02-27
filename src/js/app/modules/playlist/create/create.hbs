@@ -13,14 +13,14 @@
         <div class="form-wrapper l-box-lrg pure-u-1-2">
             <form class="pure-form pure-form-stacked">
                 <fieldset class="l-box-lrg pure-u-1">
-                    <input class="pure-input-1" name="playlist-name" type="text" placeholder="Enter the playlist name">
-                    <textarea class="pure-input-1"  name="playlist-description" type="text" placeholder="Enter a description"></textarea>
+                    <input class="pure-input-1" name="playlist-name" type="text" placeholder="{{t 'playlist:create.namePlaceholder'}}">
+                    <textarea class="pure-input-1"  name="playlist-description" type="text" placeholder="{{t 'playlist:create.descriptionPlaceholder'}}"></textarea>
                     <div class="autocomplete">
-                      <input class="pure-input-1 autocomplete-input tags-input" name="playlist-tags" type="text" placeholder="Enter a tag" />
+                      <input class="pure-input-1 autocomplete-input tags-input" name="playlist-tags" type="text" placeholder="{{t 'playlist:create.tagPlaceholder'}}" />
                       <a href="#" class="pure-button pure-button-primary autocomplete-button add-tag"><i class="fa fa-plus"></i></a>
                       <div class="tags-container"></div>
                     </div>
-                    <button class="js-create-playlist pure-button pure-button-primary">Create Playlist! <i class="fa fa-plus"></i></button>
+                    <button class="js-create-playlist pure-button pure-button-primary">{{t "common.createPlaylistButton"}}<i class="fa fa-plus"></i></button>
                 </fieldset>
             </form>
         </div>
