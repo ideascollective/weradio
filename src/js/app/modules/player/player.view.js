@@ -15,78 +15,225 @@ define(
 
       id: _.uniqueId('player-'),
 
-      autoplay: true,
+      autoplay: false,
 
       getNextSongIndex: function() {
-        this.current += 1;
-        return (this.current <= this.songsCollection.length) ? this.current : this.resetSongsIndex();
+        this.currentSong += 1;
+        return (this.currentSong <= this.songsCollection.length) ? this.currentSong : this.resetSongsIndex();
       },
 
       getPrevSongIndex: function() {
-        this.current -= 1;
-        return (this.current >= 0) ? this.current : this.resetSongsIndex();
+        this.currentSong -= 1;
+        return (this.currentSong >= 0) ? this.currentSong : this.resetSongsIndex();
       },
 
       resetSongsIndex: function() {
-        this.current = -1;
-        return this.current;
+        this.currentSong = -1;
+        return this.currentSong;
       },
 
       initialize: function(options) {
         this.songsCollection = options.songs;
         this.resetSongsIndex();
+        _.bindAll(this, 'onEnded', 'onPlayerError', 'triggerEvent');
       },
 
       onShow: function() {
         this.playNextSong();
+        App.player.commands.setHandler('pause', this.commandPause, this);
+        App.player.commands.setHandler('play', this.commandPlay, this);
+        App.player.commands.setHandler('playpause', this.commandTogglePlay, this);
+        App.player.commands.setHandler('unmute', this.commandUnMute, this);
+        App.player.commands.setHandler('mute', this.commandMute, this);
+        App.player.commands.setHandler('toggleMute', this.commandToggleMute, this);
+        App.player.commands.setHandler('volume', this.commandVolumeChange, this);
+        App.player.commands.setHandler('next', this.playNextSong, this);
+        App.player.commands.setHandler('prev', this.playPrevSong, this);
+        App.player.info.setHandler('volume', this.requestVolume, this);
+        App.player.info.setHandler('isPlaying', this.requestIsPlaying, this);
+        App.player.info.setHandler('isMuted', this.requestIsMuted, this);
+        App.player.info.setHandler('playlistIndex', this.playlist, this);
+        App.player.info.setHandler('playlistLength', this.requestPlaylistLength, this);
+      },
+
+      commandPlay: function() {
+        if (this.playerInstance) {
+          this.playerInstance.play();
+        }
+      },
+
+      commandPause: function() {
+        if (this.playerInstance) {
+          this.playerInstance.pause();
+        }
+      },
+
+      commandTogglePlay: function(play) {
+        play = (typeof play !== 'undefined') ? !!play : this.playerInstance.paused();
+        if (this.playerInstance) {
+          if (play) {
+            this.playerInstance.play();
+          } else {
+            this.playerInstance.pause();
+          }
+        }
+      },
+
+      commandMute: function() {
+        if (this.playerInstance) {
+          this.playerInstance.mute();
+        }
+      },
+
+      commandUnMute: function() {
+        if (this.playerInstance) {
+          this.playerInstance.unmute();
+        }
+      },
+
+      commandToggleMute: function(toMute) {
+        toMute = (typeof toMute !== 'undefined') ? !!toMute : !this.playerInstance.muted();
+        if (this.playerInstance) {
+          if (toMute) {
+            this.playerInstance.mute();
+          } else {
+            this.playerInstance.unmute();
+          }
+        }
+      },
+
+      commandVolumeChange: function(volumeLevel) {
+        volumeLevel = +volumeLevel / 100;
+        if (this.playerInstance && !isNaN(volumeLevel)) {
+          this.playerInstance.volume(volumeLevel);
+        }
+      },
+
+      requestVolume: function() {
+        var result;
+        if (this.playerInstance) {
+          result = Math.round(this.playerInstance.volume() * 100);
+        }
+        return result;
+      },
+
+      requestIsPlaying: function() {
+        var result;
+        if (this.playerInstance) {
+          result = !this.playerInstance.paused();
+        }
+        return result;
+      },
+
+      requestIsMuted: function() {
+        var result;
+        if (this.playerInstance) {
+          result = this.playerInstance.muted();
+        }
+        return result;
+      },
+
+      requestPlaylistIndex: function() {
+        var result;
+        if (this.playerInstance) {
+          result = this.currentSong;
+        }
+        return result;
+      },
+
+      requestPlaylistLength: function() {
+        var result;
+        if (this.playerInstance && this.songsCollection) {
+          result = this.songsCollection.length;
+        }
+        return result;
       },
 
       playSongByIndex: function(index) {
         var song = this.songsCollection.at(index);
-        if (this.player) {
-          this.stopListening(this.player);
-          this.player.destroy();
+        if (this.playerInstance) {
+          this._destroyPlayerInstance();
+          this.autoplay = true;
         }
         if (song) {
-          this.player = Popcorn.smart(
+          this.playerInstance = Popcorn.smart(
             '.player-wrapper',
             song.get('url')
           );
           this._bindPopcornPlayerEvents();
+          this.playerInstance.load();
           if (this.autoplay) {
-            this.player.play();
+            this.playerInstance.play();
           }
         }
       },
 
+      _destroyPlayerInstance: function() {
+        this.playerInstance.off();
+        this.stopListening(this.playerInstance);
+        this.playerInstance.destroy();
+        Popcorn.destroy(this.playerInstance);
+        this.$el.html('');
+        delete this.playerInstance;
+      },
+
       _bindPopcornPlayerEvents: function() {
-        // Add isPlaying state to the player
-        this.listenTo(this.player, 'playing', function(evt) {
-          this.isPlaying = true;
-        });
-        this.listenTo(this.player, 'pause', function(evt) {
-          this.isPlaying = false;
-        });
-        this.listenTo(this.player, 'ended', _.bind(function(evt) {
+        this.listenTo(this.playerInstance, 'ended', this.onEnded);
+        this.listenTo(this.playerInstance, 'error', this.onPlayerError);
+        // Trigger player events as player:eventName
+        _.chain(Popcorn.Events.Events.split(/\s+/g))
+          .without('timeupdate', 'ended', 'error')
+          .each(function (eventName, index, list) {
+            this.listenTo(this.playerInstance, eventName, this.triggerEvent);
+          }, this);
+      },
+
+      onEnded: function(evt) {
+        // Play next song on ended
+        this.triggerEvent(evt);
+        this.playNextSong();
+      },
+
+      onPlayerError: function(evt) {
+        // Play song in direction on error
+        this.triggerEvent(evt);
+        if (this.playingBackwards) {
+          this.playPrevSong();
+        } else {
           this.playNextSong();
-        }, this));
-        // Trigger all player events but timeupdate as player:eventName
-        _.each(Popcorn.Events.Events.split(/\s+/g), function (eventName, index, list) {
-          if (eventName !== 'timeupdate') {
-            this.listenTo(this.player, eventName, _.bind(function(evt) {
-              console.log(evt);
-              this.trigger('player:' + evt.type, evt);
-            }, this));
-          }
-        }, this);
+        }
+      },
+
+      triggerEvent: function(evt) {
+        // Augment event object
+        if (_.isString(evt)) {
+          evt = {type: evt};
+        }
+        evt = evt || {};
+        evt.isMuted = this.playerInstance.muted();
+        evt.volumeLevel = Math.round(this.playerInstance.volume() * 100);
+        evt.isPlaying = !this.playerInstance.paused();
+        evt.playlistIndex = this.currentSong;
+        evt.playlistLength = this.songsCollection.length;
+        this.trigger('player:' + evt.type, evt);
+        App.player.events.trigger('player:' + evt.type, evt);
       },
 
       playNextSong: function() {
+        this.playingBackwards = false;
         this.playSongByIndex(this.getNextSongIndex());
       },
 
       playPrevSong: function() {
+        this.playingBackwards = true;
         this.playSongByIndex(this.getPrevSongIndex());
+      },
+
+      onClose: function() {
+        App.player.events.removeAllHandlers();
+        App.player.info.removeAllHandlers();
+        App.player.commands.removeAllHandlers();
+        this._destroyPlayerInstance();
       }
 
     });
