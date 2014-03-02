@@ -5,6 +5,7 @@
   "playlist:create.descriptionPlaceholder": "Ingresa la descripción de la playlist",
   "playlist:create.tagPlaceholder": "Ingresa una etiqueta",
   "playlist:show.shareButton": "Compartir",
+  "playlist:show.searchButton": "Buscar",
   "playlist:show.addSongButton": "Agregar canción",
   "playlist:show.muteButton": "Mute",
   "playlist:show.emptyListPlaceholder": "Click en AGREGAR CANCIÓN para comenzar",

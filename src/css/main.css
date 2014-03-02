@@ -50,6 +50,15 @@ button.pure-button-primary.dark {
   background-color: #0573A8;
 }
 
+button.pure-button-branding {
+  background-color: #197590;
+  border-radius: 0;
+  margin-left: -4px;
+  color: #FFF;
+  height: auto;
+  padding: 20px 25px 21px;
+}
+
 button.pure-button.large {
   width: 18em;
   height: 4em;
@@ -106,6 +115,16 @@ header .home-menu .pure-menu-heading {
   height: 40px;
   width: 134px;
   margin-left: 2em;
+}
+
+.branding {
+  text-transform: uppercase;
+  color: #5587a0;
+  font-weight: 600;
+}
+
+.branding span {
+  color: #3F3F3F;
 }
 
 .section-title {
