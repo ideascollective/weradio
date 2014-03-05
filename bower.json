@@ -21,6 +21,9 @@
     "tooltipster": "~3.0.5",
     "jquery": "~1.11.0",
     "polyglot": "~0.3.0",
-    "typeahead.js": "0.10.1"
+    "typeahead.js": "~0.10.1"
+  },
+  "resolutions": {
+    "jquery": "1.8.0 - 1.11.0"
   }
 }
