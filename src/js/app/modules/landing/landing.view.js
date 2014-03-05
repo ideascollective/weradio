@@ -42,7 +42,7 @@ define(
       },
 
       onClose: function() {
-        $('.js-autocomplete').typeahead('destroy');
+        this.$el.find('.js-autocomplete').typeahead('destroy');
       }
     });
 
