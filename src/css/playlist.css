@@ -244,7 +244,8 @@ input[type="range"]:hover ~ .rangevalue,input[type="range"]:active ~ .rangevalue
 }
 
 .tooltipster-content > input {
-  height: 1em;
+  height: 2em;
+  margin-left: 0.57142857em;
 }
 
 .tooltipster-content > a {
