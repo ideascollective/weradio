@@ -1,189 +1,222 @@
 define(
   [
-    'jquery',
-    'backbone',
-    'marionette'
+    'underscore',
+    'marionette',
+    'popcorn'
   ],
-  function($, Backbone, Marionette) {
+  function(_, Marionette, Popcorn) {
     'use strict';
-
-    // TODO: Convert into helper
-    var YouTubeWrapper = {
-      YT: false,
-      loadAPI: function(callback, context) {
-        var onYouTubeIframeAPIReady = _.bind(function() {
-          this.YT = window.YT;
-          if (callback) {
-            callback.apply(context, this.YT);
-          }
-        }, this);
-
-        if ((typeof YT === 'undefined') || (typeof YT.Player === 'undefined')) {
-          window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-          var tag = document.createElement('script');
-          tag.src = "https://www.youtube.com/iframe_api";
-          var firstScriptTag = document.getElementsByTagName('script')[0];
-          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        } else {
-          onYouTubeIframeAPIReady();
-        }
-      },
-      createPlayer: function(elem, options) {
-        return new this.YT.Player(elem, options);
-      },
-      getVideoId: function(url) {
-        var videoId = ("" + url).match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-        return videoId && videoId[1];
-      }
-    };
-
-    // TODO: Convert into helper and possibly unify with YouTubeWrapper
-    var PlayerSongCollection = Backbone.Collection.extend({
-
-      current: -1,
-
-      start: 0,
-
-      playing: false,
-
-      next: function() {
-        this.current += 1;
-        // TODO: set current to the right model in the collection
-        var song = this.at(this.current);
-        return (song) ? song : this.resetCount();
-      },
-
-      prev: function() {
-        this.current -= 1;
-        // TODO: set current to the right model in the collection
-        var song = this.at(this.current);
-        return (song) ? song : this.resetCount();
-      },
-
-      resetCount: function() {
-        this.current = -1;
-      }
-    });
-
 
     var PlayerView = Marionette.ItemView.extend({
 
       template: 'player.hbs',
 
-      events: {
-        'click .js-player-playpauseVideo': 'handlePlayPauseClick',
-        'click .js-player-mute': 'handleMuteClick',
-        'click .js-player-next': 'playNextSong',
-        'click .js-player-prev': 'playPrevSong',
-        'change .js-player-volume': 'handleVolumeChange',
-        'input .js-player-volume': 'handleVolumeChange',
-        'click .js-player-toggleVideo': 'handleToggleVideo'
+      className: 'player-wrapper',
+
+      id: _.uniqueId('player-'),
+
+      autoplay: false,
+
+      getNextSongIndex: function() {
+        this.currentSong += 1;
+        return (this.currentSong <= this.songsCollection.length) ? this.currentSong : this.resetSongsIndex();
+      },
+
+      getPrevSongIndex: function() {
+        this.currentSong -= 1;
+        return (this.currentSong >= 0) ? this.currentSong : this.resetSongsIndex();
+      },
+
+      resetSongsIndex: function() {
+        this.currentSong = -1;
+        return this.currentSong;
       },
 
       initialize: function(options) {
-        this.model = new Backbone.Model({
-          playerId: _.uniqueId('player-')
-        });
-        this.songs = options.songs;
+        this.songsCollection = options.songs;
+        this.resetSongsIndex();
+        _.bindAll(this, 'onEnded', 'onPlayerError', 'triggerEvent');
       },
 
       onShow: function() {
-        _.bindAll(this, 'onLoadedAPI', 'onPlayerReady', 'onPlayerStateChange');
-
-        YouTubeWrapper.loadAPI(this.onLoadedAPI);
-      },
-
-      onLoadedAPI: function(YT) {
-        this.player = YouTubeWrapper.createPlayer(this.model.get('playerId'), {
-          events: {
-            'onReady': this.onPlayerReady,
-            'onStateChange': this.onPlayerStateChange
-          },
-          playerVars: {
-            controls: '0'
-          }
-        });
-      },
-
-      updateSongs: function(newModel) {
-        this.playerSongCollection.add(newModel.toJSON());
-      },
-
-      onPlayerReady: function(evt) {
-        this.listenTo(this.songs, 'add', this.updateSongs);
-
-        var list =
-          this.songs
-            .filter(function(song) { return !!song.get('url'); })
-            .map(function(song) { return song.toJSON(); });
-        this.playerSongCollection = new PlayerSongCollection(list);
-
         this.playNextSong();
-        this.togglePlayButtonState();
       },
 
-      onPlayerStateChange: function(evt) {
-        if (evt.data === YouTubeWrapper.YT.PlayerState.ENDED) {
+      commandPlay: function() {
+        if (this.playerInstance) {
+          this.playerInstance.play();
+        }
+      },
+
+      commandPause: function() {
+        if (this.playerInstance) {
+          this.playerInstance.pause();
+        }
+      },
+
+      commandTogglePlay: function(play) {
+        play = (typeof play !== 'undefined') ? !!play : this.playerInstance.paused();
+        if (this.playerInstance) {
+          if (play) {
+            this.playerInstance.play();
+          } else {
+            this.playerInstance.pause();
+          }
+        }
+      },
+
+      commandMute: function() {
+        if (this.playerInstance) {
+          this.playerInstance.mute();
+        }
+      },
+
+      commandUnMute: function() {
+        if (this.playerInstance) {
+          this.playerInstance.unmute();
+        }
+      },
+
+      commandToggleMute: function(toMute) {
+        toMute = (typeof toMute !== 'undefined') ? !!toMute : !this.playerInstance.muted();
+        if (this.playerInstance) {
+          if (toMute) {
+            this.playerInstance.mute();
+          } else {
+            this.playerInstance.unmute();
+          }
+        }
+      },
+
+      commandVolumeChange: function(volumeLevel) {
+        volumeLevel = +volumeLevel / 100;
+        if (this.playerInstance && !isNaN(volumeLevel)) {
+          this.playerInstance.volume(volumeLevel);
+        }
+      },
+
+      requestVolume: function() {
+        var result;
+        if (this.playerInstance) {
+          result = Math.round(this.playerInstance.volume() * 100);
+        }
+        return result;
+      },
+
+      requestIsPlaying: function() {
+        var result;
+        if (this.playerInstance) {
+          result = !this.playerInstance.paused();
+        }
+        return result;
+      },
+
+      requestIsMuted: function() {
+        var result;
+        if (this.playerInstance) {
+          result = this.playerInstance.muted();
+        }
+        return result;
+      },
+
+      requestPlaylistIndex: function() {
+        var result;
+        if (this.playerInstance) {
+          result = this.currentSong;
+        }
+        return result;
+      },
+
+      requestPlaylistLength: function() {
+        var result;
+        if (this.playerInstance && this.songsCollection) {
+          result = this.songsCollection.length;
+        }
+        return result;
+      },
+
+      playSongByIndex: function(index) {
+        var song = this.songsCollection.at(index);
+        if (this.playerInstance) {
+          this._destroyPlayerInstance();
+          this.autoplay = true;
+        }
+        if (song) {
+          this.playerInstance = Popcorn.smart(
+            '.player-wrapper',
+            song.get('url')
+          );
+          this._bindPopcornPlayerEvents();
+          this.playerInstance.load();
+          if (this.autoplay) {
+            this.playerInstance.play();
+          }
+        }
+      },
+
+      _destroyPlayerInstance: function() {
+        this.playerInstance.off();
+        this.stopListening(this.playerInstance);
+        this.playerInstance.destroy();
+        Popcorn.destroy(this.playerInstance);
+        this.$el.html('');
+        delete this.playerInstance;
+      },
+
+      _bindPopcornPlayerEvents: function() {
+        this.listenTo(this.playerInstance, 'ended', this.onEnded);
+        this.listenTo(this.playerInstance, 'error', this.onPlayerError);
+        // Trigger player events as player:eventName
+        _.chain(Popcorn.Events.Events.split(/\s+/g))
+          .without('timeupdate', 'ended', 'error')
+          .each(function (eventName, index, list) {
+            this.listenTo(this.playerInstance, eventName, this.triggerEvent);
+          }, this);
+      },
+
+      onEnded: function(evt) {
+        // Play next song on ended
+        this.triggerEvent(evt);
+        this.playNextSong();
+      },
+
+      onPlayerError: function(evt) {
+        // Play song in direction on error
+        this.triggerEvent(evt);
+        if (this.playingBackwards) {
+          this.playPrevSong();
+        } else {
           this.playNextSong();
         }
       },
 
-      _playAnotherSong: function(backward) {
-        var direction = (!backward) ? 'next' : 'prev';
-        var song = this.playerSongCollection[direction]();
-        if (song) {
-          this.player.loadVideoById({
-            videoId: YouTubeWrapper.getVideoId(song.get('url')),
-            startSeconds: 0
-          });
-          if (this.playerSongCollection.playing) {
-            this.player.playVideo();
-          }
-        } else {
-          this.player.stopVideo();
+      triggerEvent: function(evt) {
+        // Augment event object
+        if (_.isString(evt)) {
+          evt = {type: evt};
         }
+        evt = evt || {};
+        evt.isMuted = this.playerInstance.muted();
+        evt.volumeLevel = Math.round(this.playerInstance.volume() * 100);
+        evt.isPlaying = !this.playerInstance.paused();
+        evt.playlistIndex = this.currentSong;
+        evt.playlistLength = this.songsCollection.length;
+        this.trigger('player:' + evt.type, evt);
+        this.trigger('player', evt.type, evt);
       },
 
       playNextSong: function() {
-        this._playAnotherSong.call(this);
+        this.playingBackwards = false;
+        this.playSongByIndex(this.getNextSongIndex());
       },
 
       playPrevSong: function() {
-        this._playAnotherSong.call(this, true);
+        this.playingBackwards = true;
+        this.playSongByIndex(this.getPrevSongIndex());
       },
 
-      handleMuteClick: function(evt) {
-        var action = (this.player.isMuted()) ? 'unMute' : 'mute';
-        this.player[action]();
-      },
-
-      handlePlayPauseClick: function(evt) {
-        var action = (this.player.getPlayerState() === YouTubeWrapper.YT.PlayerState.PLAYING) ? 'pauseVideo' : 'playVideo';
-
-        this.player[action]();
-        this.togglePlayButtonState();
-
-        this.playerSongCollection.playing = true;
-      },
-
-      togglePlayButtonState: function() {
-        var buttonIcon = this.$el.find('.js-player-playpauseVideo > i'),
-            playing = (this.player.getPlayerState() === YouTubeWrapper.YT.PlayerState.PLAYING);
-        if (buttonIcon.hasClass('fa-play') && !playing) {
-          buttonIcon.removeClass('fa-play').addClass('fa-pause');
-        } else {
-          buttonIcon.removeClass('fa-pause').addClass('fa-play');
-        }
-      },
-
-      handleVolumeChange: function(evt) {
-        var value = $(evt.target).val();
-        this.player.setVolume(value);
-      },
-
-      handleToggleVideo: function() {
-        $(this.player.getIframe()).toggle();
+      onClose: function() {
+        this._destroyPlayerInstance();
       }
 
     });
