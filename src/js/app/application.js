@@ -96,7 +96,8 @@ define(
     }
 
     function loadLocaleResources() {
-      var lang = navigator.language || navigator.userLanguage;
+      var lang = navigator.language || navigator.userLanguage || 'en';
+      lang = lang.toLowerCase();
       return i18nService.load(lang);
     }
 
