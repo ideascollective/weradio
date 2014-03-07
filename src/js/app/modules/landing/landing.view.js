@@ -16,24 +16,35 @@ define(
       template: 'landing.hbs',
 
       events: {
-        'click .js-create-playlist': 'onCreatePlaylistClick'
+        'click .js-create-playlist': 'onCreatePlaylistClick',
+        'keydown #js-autocomplete': 'onAutocompleteKeyDown',
+        'click .js-search-playlist': 'onSearchPlaylistClick'
       },
 
       onRender: function() {
-        var playlists = new Bloodhound({
+        var playlistNames = new Bloodhound({
           datumTokenizer: function(d) {
             return Bloodhound.tokenizers.whitespace(d.name);
           },
+
           queryTokenizer: Bloodhound.tokenizers.whitespace,
+
           local: PlaylistCollection.toJSON()
         });
+        playlistNames.initialize();
 
-        playlists.initialize();
-
-        this.$el.find('.js-autocomplete').typeahead(null, {
-          displayKey: 'name',
-          source: playlists.ttAdapter()
-        });
+        this.autocomplete = this.$el.find('#js-autocomplete');
+        this.autocomplete.typeahead(
+          {
+            minLength: 3,
+            highlight: true
+          },
+          {
+            name: 'name',
+            displayKey: 'name',
+            source: playlistNames.ttAdapter()
+          }
+        );
       },
 
       onCreatePlaylistClick: function(e) {
@@ -41,8 +52,36 @@ define(
         this.trigger('playlist:create');
       },
 
+      onAutocompleteKeyDown: function(e) {
+        if (e.which === 13) {
+          this.handleSearchPlaylist(e);
+        }
+        if (e.which === 27) {
+          e.preventDefault();
+          this.autocomplete.typeahead('val', '');
+        }
+      },
+
+      onSearchPlaylistClick: function(e) {
+        this.handleSearchPlaylist(e);
+      },
+
+      handleSearchPlaylist: function(e) {
+        e.preventDefault();
+
+        var playlist = PlaylistCollection.findWhere({
+          name: this.autocomplete.typeahead('val')
+        });
+
+        if (playlist) {
+          this.trigger('playlist:show', {
+            id: playlist.id
+          });
+        }
+      },
+
       onClose: function() {
-        this.$el.find('.js-autocomplete').typeahead('destroy');
+        this.autocomplete.typeahead('destroy');
       }
     });
 
