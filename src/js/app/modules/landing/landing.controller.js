@@ -15,6 +15,7 @@ define(
       show: function() {
         this.landingView = new LandingView();
         this.listenTo(this.landingView, 'playlist:create', this.showCreatePlaylist);
+        this.listenTo(this.landingView, 'playlist:show', this.showPlaylist);
         this.listenTo(this.landingView, 'close', this.close);
         this.renderLanding();
       },
@@ -25,6 +26,12 @@ define(
 
       showCreatePlaylist: function() {
         this.router.navigate('playlist/create', {
+          trigger: true
+        });
+      },
+
+      showPlaylist: function(playlist) {
+        this.router.navigate('playlist/' + playlist.id, {
           trigger: true
         });
       }

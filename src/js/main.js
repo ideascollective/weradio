@@ -15,7 +15,9 @@ require.config({
     'tagmanager' : '../vendor/tagmanager/tagmanager',
     'playlistcollection' : 'app/entities/playlist.collection',
     'tooltipster' : '../vendor/tooltipster/js/jquery.tooltipster',
-    'polyglot' : '../vendor/polyglot/build/polyglot'
+    'polyglot' : '../vendor/polyglot/build/polyglot',
+    'typeahead' : '../vendor/typeahead.js/dist/typeahead.jquery',
+    'bloodhound': '../vendor/typeahead.js/dist/bloodhound'
   },
 
   shim: {
@@ -47,6 +49,12 @@ require.config({
     },
 
     'tooltipster': ['jquery'],
+
+    'typeahead': ['jquery'],
+
+    'bloodhound': {
+      exports: 'Bloodhound'
+    },
 
     'polyglot': {
       exports: 'Polyglot'
