@@ -40,20 +40,6 @@ define(
 
       onShow: function() {
         this.playNextSong();
-        App.player.commands.setHandler('pause', this.commandPause, this);
-        App.player.commands.setHandler('play', this.commandPlay, this);
-        App.player.commands.setHandler('playpause', this.commandTogglePlay, this);
-        App.player.commands.setHandler('unmute', this.commandUnMute, this);
-        App.player.commands.setHandler('mute', this.commandMute, this);
-        App.player.commands.setHandler('toggleMute', this.commandToggleMute, this);
-        App.player.commands.setHandler('volume', this.commandVolumeChange, this);
-        App.player.commands.setHandler('next', this.playNextSong, this);
-        App.player.commands.setHandler('prev', this.playPrevSong, this);
-        App.player.info.setHandler('volume', this.requestVolume, this);
-        App.player.info.setHandler('isPlaying', this.requestIsPlaying, this);
-        App.player.info.setHandler('isMuted', this.requestIsMuted, this);
-        App.player.info.setHandler('playlistIndex', this.playlist, this);
-        App.player.info.setHandler('playlistLength', this.requestPlaylistLength, this);
       },
 
       commandPlay: function() {
@@ -216,7 +202,7 @@ define(
         evt.playlistIndex = this.currentSong;
         evt.playlistLength = this.songsCollection.length;
         this.trigger('player:' + evt.type, evt);
-        App.player.events.trigger('player:' + evt.type, evt);
+        this.trigger('player', evt.type, evt);
       },
 
       playNextSong: function() {
@@ -230,9 +216,6 @@ define(
       },
 
       onClose: function() {
-        App.player.events.removeAllHandlers();
-        App.player.info.removeAllHandlers();
-        App.player.commands.removeAllHandlers();
         this._destroyPlayerInstance();
       }
 

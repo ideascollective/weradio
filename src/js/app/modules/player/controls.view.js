@@ -1,10 +1,11 @@
 define(
   [
+    'underscore',
     'jquery',
     'backbone',
     'marionette'
   ],
-  function($, Backbone, Marionette) {
+  function(_, $, Backbone, Marionette) {
     'use strict';
 
     var PlayerControlsLayout = Marionette.Layout.extend({
@@ -26,11 +27,7 @@ define(
       },
 
       initialize: function(options) {
-        // Listen to player events to update UI
-        this.listenTo(App.player.events, 'player:seeked player:error', this.onPlayerInitialize);
-        this.listenTo(App.player.events, 'player:playing', this.onPlayingState);
-        this.listenTo(App.player.events, 'player:pause', this.onPlayingState);
-        this.listenTo(App.player.events, 'player:volumechange', this.onVolumeChange);
+        _.bindAll(this, 'onPlayerInitialize', 'onPlayingState', 'onVolumeChange');
       },
 
       onPlayerInitialize: function(evt) {
@@ -58,26 +55,24 @@ define(
       },
 
       handlePlayPauseClick: function(evt) {
-        App.player.commands.execute('playpause');
+        this.trigger('player', 'playpause');
       },
 
       handleVolumeClick: function(evt) {
         var value = +$(evt.target).val();
-        if (value !== App.player.info.request('volume')) {
-          App.player.commands.execute('volume', value);
-        }
+        this.trigger('player', 'volume', value);
       },
 
       handleMuteClick: function(evt) {
-        App.player.commands.execute('toggleMute');
+        this.trigger('player', 'toggleMute');
       },
 
       handelNextClick: function(evt) {
-        App.player.commands.execute('next');
+        this.trigger('player', 'next');
       },
 
       handelPrevClick: function(evt) {
-        App.player.commands.execute('prev');
+        this.trigger('player', 'prev');
       }
 
     });
