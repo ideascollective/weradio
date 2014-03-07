@@ -5,6 +5,8 @@
   "playlist:create.descriptionPlaceholder": "Ingresa la descripción de la playlist",
   "playlist:create.tagPlaceholder": "Ingresa una etiqueta",
   "playlist:show.shareButton": "Compartir",
+  "playlist:show.shareInTwitterButton": "Compartir en twitter",
+  "playlist:show.twitterMessage": "Únete a mi playlist en WeRadio",
   "playlist:show.addSongButton": "Agregar canción",
   "playlist:show.muteButton": "Mute",
   "playlist:show.emptyListPlaceholder": "Click en AGREGAR CANCIÓN para comenzar",

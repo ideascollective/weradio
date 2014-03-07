@@ -3,9 +3,10 @@ define(
     'jquery',
     'marionette',
     'tooltipster',
-    '../../../../config'
+    '../../../../config',
+    'templateregistry'
   ],
-  function($, Marionette, tooltipster, Config) {
+  function($, Marionette, tooltipster, Config, JST) {
     'use strict';
 
     var TopBarView = Marionette.ItemView.extend({
@@ -26,16 +27,18 @@ define(
 
       onShow: function() {
         var shareBtn = this.$el.find('.js-share-btn');
-        var url = Config.get('baseUrl') + '#playlist/' + this.id;
-        var encodedUrl = encodeURIComponent(url);
-        var twitterUrl = 'http://twitter.com/share?text=Join my playlist at WeRadio!&url=http://'+ encodedUrl +'&hashtags=#WeRadio';
-        var innerHTML =
-          '<a href="' + twitterUrl + '" target="_blank"><i class="fa fa-twitter">&nbsp;Share on Twitter&nbsp;</i></a><input type="text" value="' + url + '"></input>';
+        var templateFunc = JST['share.hbs'];
+
+        var context = {};
+        context.shareUrl = 'http://' + Config.get('baseUrl') + '/#playlist/' + this.id;
+        context.encodedShareUrl = encodeURI(context.shareUrl);
+
         shareBtn.tooltipster({
-          content: $(innerHTML),
+          content: $(templateFunc(context)),
           touchDevices: true,
           trigger: 'click',
-          position: 'left',
+          fixedWidth: 'auto',
+          position: 'bottom',
           interactive: true,
           theme: 'tooltipster-light'
         });
