@@ -97,6 +97,10 @@
 
 .song-name {
   margin-left: 0.313em;
+  height: 1.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .btn-fixed-bottom {
