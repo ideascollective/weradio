@@ -10,6 +10,9 @@ define(
   function($, Backbone, Marionette, PlaylistCollection, Bloodhound, typeahead) {
     'use strict';
 
+    var KEY_ENTER = 13;
+    var KEY_ESCAPE = 27;
+
     var LandingView = Marionette.ItemView.extend({
       tagName: 'main',
 
@@ -53,10 +56,10 @@ define(
       },
 
       onAutocompleteKeyDown: function(e) {
-        if (e.which === 13) {
+        if (e.which === KEY_ENTER) {
           this.handleSearchPlaylist(e);
         }
-        if (e.which === 27) {
+        if (e.which === KEY_ESCAPE) {
           e.preventDefault();
           this.autocomplete.typeahead('val', '');
         }
