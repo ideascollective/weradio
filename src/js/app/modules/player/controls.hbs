@@ -1,24 +1,22 @@
-<div class="player-controls">
-  <div class="pure-g-r">
-    <div class="pure-u-2-5">
-      <button class="player-btn js-player-playpauseVideo" data-player-action="playpauseVideo">
-        <i class="fa fa-play"></i>
-      </button>
-      <button class="player-btn js-player-prev">
-        <i class="fa fa-backward"></i>
-      </button>
-      <button class="player-btn js-player-next">
-        <i class="fa fa-forward"></i>
-      </button>
-      <button class="player-btn js-player-mute" data-player-action="mute">
-        <i class="fa fa-volume-off"></i>
-      </button>
-    </div>
-    <div class="pure-u-3-5">
-      <div class="player-slider">
-        <input class="bar js-player-volume" type="range" min="0" max="100" onchange="rangevalue.value=value">
-        <output id="rangevalue" class="rangevalue">50</output>
-      </div>
+<div class="ui two column grid player-controls">
+  <div class="column">
+    <button class="player-btn js-player-playpauseVideo" data-player-action="playpauseVideo">
+      <i class="fa fa-play"></i>
+    </button>
+    <button class="player-btn js-player-prev">
+      <i class="fa fa-backward"></i>
+    </button>
+    <button class="player-btn js-player-next">
+      <i class="fa fa-forward"></i>
+    </button>
+    <button class="player-btn js-player-mute" data-player-action="mute">
+      <i class="fa fa-volume-off"></i>
+    </button>
+  </div>
+  <div class="column">
+    <div class="player-slider">
+      <input class="bar js-player-volume" type="range" min="0" max="100" onchange="rangevalue.value=value">
+      <output id="rangevalue" class="rangevalue">50</output>
     </div>
   </div>
 </div>

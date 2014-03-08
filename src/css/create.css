@@ -7,3 +7,7 @@ main .create {
   background-color: rgba(0, 0, 0, 0.5);
   background-size: cover;
 }
+
+.ui.form.segment {
+  background: rgba(99, 153, 202, 0.5);
+}

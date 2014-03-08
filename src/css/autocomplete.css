@@ -1,6 +1,11 @@
-.autocomplete input.autocomplete-input {
+.autocomplete {
+  position: relative;
+}
+
+.autocomplete input[type="text"].autocomplete-input {
   display: inline-block;
   margin-right: -3.35em;
+  width: 99%;
 }
 
 .autocomplete .autocomplete-button {
@@ -10,6 +15,9 @@
   background-color: #0086C8;
   margin-left: 0.14em;
   margin-top: -.02em;
+  position: absolute;
+  right: 0;
+  color: #FFF;
 }
 
 .tags-container {
@@ -35,7 +43,8 @@
 
 @media all and (max-width: 30em) {
   .autocomplete .autocomplete-button {
-    padding-top: .45em;
+    top: 0px;
+    padding: 10px 15px;
   }
 }
 

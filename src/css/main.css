@@ -27,7 +27,7 @@ input[type=text], textarea {
   border-radius: 0 !important;
   box-shadow: none !important;
   width: 30em;
-  height: 34px;
+  height: 36px;
 }
 
 textarea {
@@ -35,6 +35,7 @@ textarea {
   resize: none;
 }
 
+/*
 button.pure-button {
   border: none;
   text-transform: uppercase;
@@ -84,6 +85,7 @@ header .home-menu.pure-menu {
 header .home-menu .pure-menu-heading {
   color: #0086C8;
 }
+*/
 
 .invisible {
   display: none;
@@ -135,33 +137,9 @@ header .home-menu .pure-menu-heading {
   background: rgba(255, 255, 255, 0.5);
 }
 
-.modal-box .pure-form {
+.modal-box .form {
   width: 90%;
   margin: 20px auto;
-}
-
-.form-wrapper {
-  padding: 2em;
-  background: rgba(99, 153, 202, 0.5);
-  margin: 0 auto;
-}
-
-.pure-form input[type=text],
-.pure-form input[type=url]  {
-  height: 2.7em;
-  border-radius: 0;
-  border: 0;
-  font-size: 0.9em;
-}
-
-.pure-form input[name=playlist-name] {
-  width: 100%;
-  margin-bottom: .6em;
-}
-
-.pure-form textarea {
-  height: 6em;
-  font-size: .9em;
 }
 
 .top-menu {
@@ -178,17 +156,6 @@ header .home-menu .pure-menu-heading {
 .top-menu .fa.fa-search {
   position: relative;
   left: 1.3em;
-}
-
-.top-menu .pure-button-primary,
-.top-menu .pure-button-secondary {
-  height: 3em;
-  float: right;
-  border-radius: 0;
-}
-
-.twitter-share-button {
-  position: absolute;
 }
 
 @media screen and (max-width: 400px) {

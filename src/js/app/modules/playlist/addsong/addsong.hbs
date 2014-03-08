@@ -1,28 +1,17 @@
 <header>
-  <div class="home-menu pure-menu pure-menu-horizontal">
-    <h2 class="pure-menu-heading" href="">{{t "playlist:addSong.header"}}</h2>
+  <div class="ui menu">
+    <h2 class="ui header" href="">{{t "playlist:addSong.header"}}</h2>
   </div>
 </header>
-</div>
-<div class="content-wrapper">
-  <div class="content">
-    <div>
-      <div>
-          <form class="pure-form">
-              <fieldset class="l-box-lrg pure-u-1">
-                  <input class="pure-input-1" name="playlist-name" type="url" placeholder="{{t 'playlist:addSong.urlPlaceholder'}}" required>
-                  <button class="js-add-song-playlist pure-button pure-button-primary">
-                    {{t "playlist:addSong.addButton"}}
-                  </button>
-                  <button class="js-cancel pure-button pure-button-secondary">
-                    {{t "playlist:addSong.cancelButton"}}
-                  </button>
-              </fieldset>
-              <div class="loader invisible">
-                  <i class="fa fa-refresh fa-spin"></i> {{t "playlist:addSong.spinnerText"}}
-              </div>
-          </form>
-      </div>
-    </div>
+<form class="pure-form">
+  <input name="playlist-name" type="url" placeholder="{{t 'playlist:addSong.urlPlaceholder'}}" required>
+  <button class="js-add-song-playlist ui button primary">
+    {{t "playlist:addSong.addButton"}}
+  </button>
+  <button class="js-cancel ui button secondary">
+    {{t "playlist:addSong.cancelButton"}}
+  </button>
+  <div class="loader invisible">
+      <i class="fa fa-refresh fa-spin"></i> {{t "playlist:addSong.spinnerText"}}
   </div>
-</div>
+</form>

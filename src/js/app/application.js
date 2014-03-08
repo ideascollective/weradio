@@ -17,7 +17,7 @@ define(
     var Application = new Marionette.Application();
 
     Application.on('initialize:before', function(options) {
-      Marionette.Renderer.render = function(template, data){
+      Marionette.Renderer.render = function(template, data) {
         if (!JST[template]) {
           throw "Template '" + template + "' not found!";
         }
