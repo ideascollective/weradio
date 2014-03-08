@@ -12,6 +12,7 @@
   "playlist:show.emptyListPlaceholder": "Click on ADD SONG to start creating your playlist",
   "playlist:addSong.header": "Add song to playlist",
   "playlist:addSong.urlPlaceholder": "Enter the URL of the song",
+  "playlist:addSong.urlValid": "Enter a valid URL of the song",
   "playlist:addSong.addButton": "Add song to playlist!",
   "playlist:addSong.cancelButton": "Cancel",
   "playlist:addSong.spinnerText": "Working on it...",
