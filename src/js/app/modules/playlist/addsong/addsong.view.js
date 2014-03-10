@@ -29,7 +29,7 @@ define(
        */
       getYoutubeVideoId: function(url) {
         var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-        return (url.match(p)) ? RegExp.$1 : false;
+        return (url.match(p)) ? RegExp.$1 : null;
       },
 
       /**
@@ -37,7 +37,7 @@ define(
        */
       getVimeoVideoId: function(url) {
         var p = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/;
-        return (url.match(p)) ? RegExp.$3 : false;
+        return (url.match(p)) ? RegExp.$3 : null;
       },
 
       addSongHandler: function(e) {
