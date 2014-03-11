@@ -28,16 +28,21 @@ define(
        * http://stackoverflow.com/questions/2964678/jquery-youtube-url-validation-with-regex/10315969#10315969
        */
       getYoutubeVideoId: function(url) {
-        var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-        return (url.match(p)) ? RegExp.$1 : null;
+        var regexp = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+        return (url.match(regexp)) ? RegExp.$1 : null;
       },
 
       /**
        * Based upon http://stackoverflow.com/questions/13286785/match-vimeo-video-id
        */
       getVimeoVideoId: function(url) {
-        var p = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/;
-        return (url.match(p)) ? RegExp.$3 : null;
+        var regexp = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/;
+        return (url.match(regexp)) ? RegExp.$3 : null;
+      },
+
+      getSoundCloudId: function(url) {
+        var regexp = /^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$/;
+        return (url.match(regexp)) ? RegExp.$2 : null;
       },
 
       addSongHandler: function(e) {
@@ -61,10 +66,18 @@ define(
               id: id
             });
           } else {
-            this.ui.input.val('');
-            this.ui.input.attr('placeholder', i18nService.t('urlValid'));
-            this.ui.addBtn.removeClass('pure-button-disabled');
-            this.ui.loader.addClass('invisible');
+            id = this.getSoundCloudId(url);
+            if (id) {
+              this.trigger('playlist:add.soundcloud', {
+                url: url,
+                id: url
+              });
+            } else {
+              this.ui.input.val('');
+              this.ui.input.attr('placeholder', i18nService.t('urlValid'));
+              this.ui.addBtn.removeClass('pure-button-disabled');
+              this.ui.loader.addClass('invisible');
+            }
           }
         }
       },
