@@ -12,4 +12,3 @@ https://travis-ci.org/ideascollective/weradio
 
 Trello:
 https://trello.com/b/8xwAN7K5/weradio
-
