@@ -2,13 +2,13 @@ define(
   [
     'jquery',
     'underscore',
-    'backbone',
     'marionette',
-    '../../../config',
     './addsong.view',
-    'playlistcollection'
+    'playlistcollection',
+    '../../../services/media/youtube.service',
+    '../../../services/media/vimeo.service'
   ],
-  function($, _, Backbone, Marionette, Config, AddSongView, PlaylistCollection) {
+  function($, _, Marionette, AddSongView, PlaylistCollection, YoutubeService, VimeoService) {
     'use strict';
 
     var AddSongController = Marionette.Controller.extend({
@@ -24,33 +24,35 @@ define(
         App.modalRegion.show(this.addSongView);
 
         this.listenTo(this.addSongView, 'close', this.close);
-        this.listenTo(this.addSongView, 'playlist:addsong', this.playlistAddSong);
+        this.listenTo(this.addSongView, 'playlist:add.youtube', this.playlistAddYoutubeVideo);
+        this.listenTo(this.addSongView, 'playlist:add.vimeo', this.playlistAddVimeoVideo);
         this.listenTo(this.addSongView, 'playlist:cancelsong', this.cancelAddSong);
       },
 
-      playlistAddSong: function(data) {
+      playlistAddYoutubeVideo: function(data) {
         App.vent.trigger('analytics', {
           key: 'song.add',
           body: data
         });
-        // TODO: use from YouTube Wrapper
-        function getVideoId(url) {
-          var videoId = ("" + url).match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?(.*&)?v=|\/)([^\s&]+)/);
-          return videoId && videoId[2];
-        }
-        var options = {
-            'id': getVideoId(data.url),
-            'key': Config.get('youTubeAPIKey')
-          };
-        $.getJSON('https://www.googleapis.com/youtube/v3/videos?part=snippet', options)
-          .done(function(result) {
-            var videoInfo = (result && result.items[0]) || {};
-            data.videoId = videoInfo.id || null;
-            data.title = (videoInfo.snippet && videoInfo.snippet.title) || null;
-            data.thumbnail = (videoInfo.snippet && videoInfo.snippet.thumbnails &&
-                              videoInfo.snippet.thumbnails['default'] &&
-                              videoInfo.snippet.thumbnails['default'].url) || null;
-          }).always(_.bind(function () {
+
+        YoutubeService
+          .getVideoData(data)
+          .then(_.bind(function (data) {
+            var songInfo = _.pick(data, 'url', 'videoId', 'title', 'thumbnail');
+            this.playlist.firebase.child('songs').push(songInfo);
+            this.cancelAddSong();
+          }, this));
+      },
+
+      playlistAddVimeoVideo: function(data) {
+        App.vent.trigger('analytics', {
+          key: 'song.add',
+          body: data
+        });
+
+        VimeoService
+          .getVideoData(data)
+          .then(_.bind(function (data) {
             var songInfo = _.pick(data, 'url', 'videoId', 'title', 'thumbnail');
             this.playlist.firebase.child('songs').push(songInfo);
             this.cancelAddSong();
