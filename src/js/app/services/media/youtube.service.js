@@ -20,7 +20,7 @@ define(
           'key': Config.get('youTubeAPIKey')
         };
         return $.getJSON('https://www.googleapis.com/youtube/v3/videos?part=snippet', options)
-          .pipe(function(result) {
+          .then(function(result) {
             var videoInfo = (result && result.items[0]) || {};
             data.videoId = videoInfo.id || null;
             data.title = (videoInfo.snippet && videoInfo.snippet.title) || null;
