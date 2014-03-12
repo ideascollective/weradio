@@ -15,7 +15,7 @@ define(
        */
       getVideoData: function(data) {
         return $.getJSON('http://soundcloud.com/oembed?format=json&url=' + data.url)
-          .pipe(function(result) {
+          .then(function(result) {
 
             data.videoId = data.id;
             data.title = result.title;

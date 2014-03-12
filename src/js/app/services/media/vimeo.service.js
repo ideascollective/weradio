@@ -15,7 +15,7 @@ define(
        */
       getVideoData: function(data) {
         return $.getJSON('http://vimeo.com/api/v2/video/' + data.id + '.json')
-          .pipe(function(result) {
+          .then(function(result) {
 
             data.videoId = data.id;
             data.title = result[0].title;
