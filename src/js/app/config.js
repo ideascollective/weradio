@@ -9,7 +9,7 @@ define(
 
     return {
       local: {
-        firebaseDataURL: 'https://weradio-esteban.firebaseio.com/',
+        firebaseDataURL: 'https://weradio-development.firebaseio.com/',
         baseUrl: 'localhost'
       },
 
