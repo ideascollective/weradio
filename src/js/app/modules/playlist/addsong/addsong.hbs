@@ -3,14 +3,20 @@
     <h2 class="ui header" href="">{{t "playlist:addSong.header"}}</h2>
   </div>
 </header>
-<form class="pure-form">
-  <input name="playlist-name" type="url" placeholder="{{t 'playlist:addSong.urlPlaceholder'}}" required>
-  <button class="js-add-song-playlist ui button primary">
-    {{t "playlist:addSong.addButton"}}
-  </button>
-  <button class="js-cancel ui button secondary">
-    {{t "playlist:addSong.cancelButton"}}
-  </button>
+<form class="ui form">
+  <div class="field">
+    <input name="playlist-name" type="url" placeholder="{{t 'playlist:addSong.urlPlaceholder'}}" required>
+  </div>
+  <div class="field">
+    <button class="js-add-song-playlist ui button primary">
+      {{t "playlist:addSong.addButton"}}
+    </button>
+  </div>
+  <div class="field">
+    <button class="js-cancel ui button secondary">
+      {{t "playlist:addSong.cancelButton"}}
+    </button>
+  </div>
   <div class="loader invisible">
       <i class="fa fa-refresh fa-spin"></i> {{t "playlist:addSong.spinnerText"}}
   </div>

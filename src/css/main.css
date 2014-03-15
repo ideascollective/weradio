@@ -16,9 +16,7 @@ body {
 
 }
 
-body, button, input, textarea, a,
-.pure-g [class *= "pure-u"],
-.pure-g-r [class *= "pure-u"] {
+body, button, input, textarea, a {
   /*font-family: 'Carrois Gothic', sans-serif !important;*/
   font-family: 'Montserrat', sans-serif !important;
 }
@@ -35,57 +33,48 @@ textarea {
   resize: none;
 }
 
-/*
-button.pure-button {
+.button {
   border: none;
   text-transform: uppercase;
   border-radius: 0;
   height: 3em;
 }
 
-button.pure-button-primary {
-  background-color: #0086C8;
-}
-
-button.pure-button-primary.dark {
+.primary.dark {
   background-color: #0573A8;
 }
 
-button.pure-button.large {
+.large {
   width: 18em;
   height: 4em;
 }
 
-button.pure-button-primary:hover {
+.primary:hover {
   background: #0c7aa7 none;
 }
 
-button.pure-button-secondary:hover {
+.secondary:hover {
   background-color: #AAA none;
 }
 
-button.pure-button-primary i {
+.primary i {
    background-color: #0086C8;
 }
 
-.pure-button-secondary {
+.secondary {
   background-color: #DDD;
 }
 
-.pure-form.pure-form-stacked {
-  padding: 0 20px;
-}
-
-header .home-menu.pure-menu {
+header .home-menu {
   height: 3em;
   line-height: 3em;
   background: #FFF;
 }
 
-header .home-menu .pure-menu-heading {
+header .home-menu {
   color: #0086C8;
 }
-*/
+
 
 .invisible {
   display: none;
@@ -165,7 +154,6 @@ header .home-menu .pure-menu-heading {
 
   section {
     width: 100%;
-    padding: 0 20px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;

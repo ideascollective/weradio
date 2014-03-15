@@ -13,7 +13,6 @@
     "requirejs": "latest",
     "lodash": "2.4.1",
     "marionette": "latest",
-    "pure": "~0.4.1",
     "firebase": "~1.0.3",
     "backfire": "~0.3.0",
     "font-awesome": "~4.0.3",
@@ -21,6 +20,7 @@
     "tooltipster": "~3.0.5",
     "jquery": "1.11.0",
     "polyglot": "~0.3.0",
-    "semantic": "~0.14.0"
+    "semantic": "~0.14.0",
+    "normalize-css": "latest"
   }
 }
