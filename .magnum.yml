@@ -1,5 +1,5 @@
 before_install: npm install -g grunt-cli
 
-before_script: npm install
+install: npm install
 
 script: grunt build:dev
