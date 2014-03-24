@@ -1,11 +1,11 @@
 html {
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 body {
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
   background: #10181B;
 }
 
@@ -17,7 +17,6 @@ body {
 }
 
 body, button, input, textarea, a {
-  /*font-family: 'Carrois Gothic', sans-serif !important;*/
   font-family: 'Montserrat', sans-serif !important;
 }
 
@@ -33,11 +32,10 @@ textarea {
   resize: none;
 }
 
-.button {
+.ui.button {
   border: none;
   text-transform: uppercase;
   border-radius: 0;
-  height: 3em;
 }
 
 .primary.dark {
@@ -49,20 +47,28 @@ textarea {
   height: 4em;
 }
 
-.primary:hover {
+.ui.button.primary {
+  background-color: #00627F;
+  height: 3em;
+}
+
+.ui.button.primary:hover {
   background: #0c7aa7 none;
 }
 
-.secondary:hover {
+.ui.button.secondary:hover {
   background-color: #AAA none;
 }
 
-.primary i {
-   background-color: #0086C8;
+.ui.button.primary i {
+  background-color: transparent;
+  margin-left: .5em;
+  vertical-align: middle;
 }
 
-.secondary {
+.ui.button.secondary {
   background-color: #DDD;
+  height: 3em;
 }
 
 header .home-menu {
@@ -74,7 +80,6 @@ header .home-menu {
 header .home-menu {
   color: #0086C8;
 }
-
 
 .invisible {
   display: none;
@@ -107,7 +112,7 @@ header .home-menu {
 
 .main {
   height: 98%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .modal {

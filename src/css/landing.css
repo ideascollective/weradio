@@ -83,3 +83,11 @@ main {
   background: #FFF;
   padding: 30px 0 40px;
 }
+
+.ui.button.search-playlist {
+  border-radius: 0;
+  line-height: 1px;
+  padding: 30px;
+  vertical-align: bottom;
+  margin-left: -4px;
+}
