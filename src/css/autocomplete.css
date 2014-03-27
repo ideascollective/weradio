@@ -12,6 +12,22 @@
   margin-top: -.02em;
 }
 
+.tt-dropdown-menu {
+  background: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  text-align: left;
+  padding: 5px 15px;
+}
+
+.tt-suggestion:hover,
+.tt-suggestion:active,
+.tt-suggestion:focus {
+  background: #2AA2C5;
+  color: #FFF;
+  cursor: pointer;
+}
+
+
 .tags-container {
   height: 40px;
   overflow-y: scroll;

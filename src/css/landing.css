@@ -68,6 +68,7 @@ main {
   background: rgba(255, 255, 255, 0.4);
   border: none;
   padding: 30px;
+  vertical-align: inherit !important;
   color: #FFF;
   font-family: 'Open Sans', sans-serif;
 }
